@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inventario — Moviliza</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Inventario Parqueadero</a>
+    <div class="topbar-right">
+      <nav>
+        <a href="ingresos.html">Ingresos</a>
+        <a href="salidas.html">Salidas</a>
+        <a href="inventario.html" class="active">Inventario</a>
+      </nav>
+      <div class="sync-widget" id="syncWidget"></div>
+    </div>
+  </div>
+
+  <main>
+    <div class="page-header">
+      <h1>Inventario combinado</h1>
+      <p>
+        Cruza el Excel de la empresa (hoja "General") con las placas vistas en el scraping de
+        Moviliza dentro del rango elegido: si una placa está en ambas fuentes es
+        <strong>Tránsito</strong>; si solo está en el Excel, es <strong>Policía/Fiscalía</strong>.
+      </p>
+    </div>
+
+    <form id="formInventario" class="card card-pad">
+      <div class="field-row">
+        <div class="field">
+          <label for="inicio">Desde</label>
+          <input type="date" id="inicio" name="inicio" required />
+        </div>
+        <div class="field">
+          <label for="fin">Hasta</label>
+          <input type="date" id="fin" name="fin" required />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <span></span>
+        <button type="submit" id="btnConsultar" class="btn btn-primary">Filtrar</button>
+      </div>
+    </form>
+
+    <div id="resultados" class="resultados"></div>
+  </main>
+
+<script src="app.js"></script>
+<script>initInventario();</script>
+</body>
+</html>

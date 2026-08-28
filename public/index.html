@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inventario Parqueadero — Moviliza</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <a class="brand" href="index.html"><span class="dot"></span>Inventario Parqueadero</a>
+    <div class="topbar-right">
+      <nav>
+        <a href="ingresos.html">Ingresos</a>
+        <a href="salidas.html">Salidas</a>
+        <a href="inventario.html">Inventario</a>
+      </nav>
+      <div class="sync-widget" id="syncWidget"></div>
+    </div>
+  </div>
+
+  <main>
+    <div class="page-header">
+      <h1>Inventario de Parqueadero</h1>
+      <p>Consulta Ingresos y Salidas en Moviliza, revisa los resultados y exporta a Excel o Word.</p>
+    </div>
+
+    <div class="tarjetas">
+      <a class="tarjeta" href="ingresos.html">
+        <h2>Ingresos</h2>
+        <p>Busca por fecha inicio, fecha fin y estado (Ingreso, Salida, Autorización), o directo por placa.</p>
+        <span class="flecha">Consultar &rarr;</span>
+      </a>
+      <a class="tarjeta" href="salidas.html">
+        <h2>Salidas</h2>
+        <p>Busca por fecha inicio y fecha fin, o directo por placa.</p>
+        <span class="flecha">Consultar &rarr;</span>
+      </a>
+      <a class="tarjeta" href="inventario.html">
+        <h2>Inventario</h2>
+        <p>Cruza el Excel de la empresa con el scraping de Moviliza: Tránsito vs. Policía/Fiscalía.</p>
+        <span class="flecha">Consultar &rarr;</span>
+      </a>
+    </div>
+  </main>
+
+<script src="app.js"></script>
+</body>
+</html>

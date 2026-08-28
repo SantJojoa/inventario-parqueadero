@@ -1,0 +1,19 @@
+PENDIENTES DE REVISION MANUAL
+========================================
+
+Archivo: IMG-20260713-WA0287.jpg
+Texto:   'HE 086C'
+Motivo:  El texto no corresponde al formato de placa, 'Sin placa' ni 'Quemada'. Se conservo el nombre original
+
+Archivo: IMG-20260713-WA0250.jpg
+Texto:   'LOX 94B'
+Motivo:  Placa duplicada, guardada como 'LOX-94B (2).jpg' (revisar)
+
+Archivo: IMG-20260713-WA0246.jpg
+Texto:   'JZZ 56A'
+Motivo:  Placa duplicada, guardada como 'JZZ-56A (2).jpg' (revisar)
+
+Archivo: IMG-20260714-WA0014.jpg
+Texto:   ''
+Motivo:  El mensaje no tenia texto; no se indico placa. Se conservo el nombre original
+
