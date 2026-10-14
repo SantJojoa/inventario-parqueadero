@@ -26,7 +26,13 @@ export async function leerInventarioExcel(
   rutaArchivo: string = INVENTARIO_EXCEL_PATH
 ): Promise<ExcelInventarioRow[]> {
   const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile(rutaArchivo);
+  try {
+    await workbook.xlsx.readFile(rutaArchivo);
+  } catch (err) {
+    const mensaje = err instanceof Error ? err.message : String(err);
+    if (mensaje.startsWith("File not found")) return [];
+    throw err;
+  }
 
   const sheet = workbook.getWorksheet(INVENTARIO_EXCEL_SHEET);
   if (!sheet) {

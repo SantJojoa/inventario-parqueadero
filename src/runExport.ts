@@ -36,7 +36,7 @@ const NOMBRE_SECCION: Record<SeccionExportable, string> = {
 const TITULO_SECCION: Record<SeccionExportable, string> = {
   ingresos: "Ingresos a Patios",
   salidas: "Salidas de Patios",
-  inventario: "Inventario Combinado (Excel + Scraping)",
+  inventario: "Parqueadero Galeras — Inventario",
 };
 
 export async function writeExportFiles(

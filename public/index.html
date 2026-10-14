@@ -3,45 +3,74 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Inventario Parqueadero — Moviliza</title>
+<title>Parqueadero Galeras — Inventario</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="topbar">
-    <a class="brand" href="index.html"><span class="dot"></span>Inventario Parqueadero</a>
-    <div class="topbar-right">
-      <nav>
-        <a href="ingresos.html">Ingresos</a>
-        <a href="salidas.html">Salidas</a>
-        <a href="inventario.html">Inventario</a>
-      </nav>
-      <div class="sync-widget" id="syncWidget"></div>
+  <header class="cabecera">
+    <div class="cabecera-in">
+      <div class="titulo">
+        <h1>Parqueadero Galeras</h1>
+        <p>Inventario de vehículos: Excel de la empresa cruzado con Moviliza.</p>
+      </div>
+      <div class="sync" id="syncWidget"></div>
     </div>
-  </div>
+  </header>
 
   <main>
-    <div class="page-header">
-      <h1>Inventario de Parqueadero</h1>
-      <p>Consulta Ingresos y Salidas en Moviliza, revisa los resultados y exporta a Excel o Word.</p>
-    </div>
+    <section class="resumen" id="resumen" aria-label="Resumen"></section>
 
-    <div class="tarjetas">
-      <a class="tarjeta" href="ingresos.html">
-        <h2>Ingresos</h2>
-        <p>Busca por fecha inicio, fecha fin y estado (Ingreso, Salida, Autorización), o directo por placa.</p>
-        <span class="flecha">Consultar &rarr;</span>
-      </a>
-      <a class="tarjeta" href="salidas.html">
-        <h2>Salidas</h2>
-        <p>Busca por fecha inicio y fecha fin, o directo por placa.</p>
-        <span class="flecha">Consultar &rarr;</span>
-      </a>
-      <a class="tarjeta" href="inventario.html">
-        <h2>Inventario</h2>
-        <p>Cruza el Excel de la empresa con el scraping de Moviliza: Tránsito vs. Policía/Fiscalía.</p>
-        <span class="flecha">Consultar &rarr;</span>
-      </a>
-    </div>
+    <section class="panel">
+      <div class="filtros">
+        <div class="tabs" id="tabsCategoria" role="tablist" aria-label="Categoría"></div>
+        <div class="filtros-fila">
+          <label class="busqueda">
+            <span class="sr-only">Buscar</span>
+            <input type="search" id="buscar" placeholder="Buscar placa, ubicación u observación   ( / )" autocomplete="off" />
+          </label>
+          <label class="campo">
+            <span>Tipo</span>
+            <select id="filtroTipo"></select>
+          </label>
+          <label class="campo">
+            <span>Salida</span>
+            <select id="filtroSalida">
+              <option value="">Todas</option>
+              <option value="AUTORIZADO">Autorizada</option>
+              <option value="PENDIENTE">Sin autorizar</option>
+            </select>
+          </label>
+          <label class="campo">
+            <span>Fuente</span>
+            <select id="filtroFuente">
+              <option value="">Todas</option>
+              <option value="ambas">Excel y Moviliza</option>
+              <option value="excel">Solo Excel</option>
+              <option value="moviliza">Solo Moviliza</option>
+            </select>
+          </label>
+          <button type="button" class="btn-texto" id="limpiar" hidden>Limpiar filtros</button>
+        </div>
+        <details class="periodo">
+          <summary>Periodo de Moviliza: <strong id="periodoTxt"></strong></summary>
+          <div class="periodo-campos">
+            <label class="campo"><span>Desde</span><input type="date" id="inicio" /></label>
+            <label class="campo"><span>Hasta</span><input type="date" id="fin" /></label>
+            <p>Solo cuenta las placas que Moviliza registró en este periodo. Si cambia el rango, una placa puede pasar de Tránsito a Policía/Fiscalía.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="barra">
+        <span class="conteo" id="conteo" aria-live="polite"></span>
+        <div class="barra-acciones">
+          <button type="button" class="btn" id="btnExcel">Descargar Excel</button>
+          <button type="button" class="btn" id="btnWord">Descargar Word</button>
+        </div>
+      </div>
+
+      <div id="tabla"></div>
+    </section>
   </main>
 
 <script src="app.js"></script>

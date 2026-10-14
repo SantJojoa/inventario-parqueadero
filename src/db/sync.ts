@@ -3,6 +3,7 @@ import { getAuthenticatedContext } from "../auth/login";
 import { fetchIngresosRaw, EstadoIngreso } from "../scrape/ingresos";
 import { fetchSalidasRaw } from "../scrape/salidas";
 import { upsertIngresos, upsertSalidas, getSyncState, setSyncState } from "./repository";
+import { guardarInventarioEnBD } from "../inventario/combinar";
 import { sleep } from "../utils";
 import { REQUEST_DELAY_MS, SCRAPING_DESDE } from "../config";
 
@@ -118,14 +119,20 @@ export async function sincronizarIncremental(): Promise<SyncStatus> {
     } finally {
       await browser.close();
     }
-    status = { corriendo: false, terminado: new Date().toISOString() };
   } catch (err) {
-    status = {
-      corriendo: false,
-      terminado: new Date().toISOString(),
-      error: err instanceof Error ? err.message : String(err),
-    };
+    status.error = err instanceof Error ? err.message : String(err);
   }
+
+  // Aunque el scraping falle, se guarda la clasificación con lo que ya hay en
+  // la BD (el Excel pudo cambiar).
+  try {
+    status.progreso = "Guardando clasificación del inventario";
+    await guardarInventarioEnBD();
+  } catch (err) {
+    status.error ??= `No se pudo guardar el inventario: ${err instanceof Error ? err.message : String(err)}`;
+  }
+
+  status = { corriendo: false, terminado: new Date().toISOString(), error: status.error };
 
   return status;
 }

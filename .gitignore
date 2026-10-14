@@ -4,3 +4,5 @@ dist/
 storageState.json
 out/
 data/
+.DS_Store
+src/backups/

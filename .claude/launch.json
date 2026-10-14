@@ -3,9 +3,10 @@
   "configurations": [
     {
       "name": "ui",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "ui"],
-      "port": 3000
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["ui"],
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }

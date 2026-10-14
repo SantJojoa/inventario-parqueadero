@@ -141,3 +141,49 @@ export async function getPlacasEnRango(inicio: string, fin: string): Promise<Set
   );
   return new Set(res.rows.map((r) => normalizarPlaca(r.placa)));
 }
+
+export interface InventarioFilaBD {
+  placa: string;
+  categoria: string;
+  tipoVehiculo: string;
+  ubicacion: string;
+  estadoSalidaExcel: string;
+  enExcel: boolean;
+  enMoviliza: boolean;
+  observaciones: string;
+}
+
+// Reemplaza el contenido de la tabla inventario con la clasificación más
+// reciente (Tránsito / Policía-Fiscalía), en una sola transacción para que
+// nunca quede a medias si algo falla.
+export async function reemplazarInventario(filas: InventarioFilaBD[]): Promise<void> {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("DELETE FROM inventario");
+    const LOTE = 5000;
+    for (let i = 0; i < filas.length; i += LOTE) {
+      const lote = filas.slice(i, i + LOTE);
+      await client.query(
+        `INSERT INTO inventario (placa, categoria, tipo_vehiculo, ubicacion, estado_salida_excel, en_excel, en_moviliza, observaciones)
+         SELECT * FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::boolean[], $7::boolean[], $8::text[])`,
+        [
+          lote.map((f) => f.placa),
+          lote.map((f) => f.categoria),
+          lote.map((f) => f.tipoVehiculo),
+          lote.map((f) => f.ubicacion),
+          lote.map((f) => f.estadoSalidaExcel),
+          lote.map((f) => f.enExcel),
+          lote.map((f) => f.enMoviliza),
+          lote.map((f) => f.observaciones),
+        ]
+      );
+    }
+    await client.query("COMMIT");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  } finally {
+    client.release();
+  }
+}

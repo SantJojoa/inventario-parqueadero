@@ -86,9 +86,9 @@ export const INVENTARIO_COLUMNS: { key: keyof InventarioRow; header: string }[] 
   { key: "placa", header: "Placa" },
   { key: "categoria", header: "Categoría" },
   { key: "tipoVehiculo", header: "Tipo Vehículo" },
-  { key: "ubicacion", header: "Ubicación (Excel)" },
-  { key: "estadoSalidaExcel", header: "Estado Salida (Excel)" },
+  { key: "ubicacion", header: "Ubicación" },
+  { key: "estadoSalidaExcel", header: "Salida autorizada" },
   { key: "enExcel", header: "En Excel" },
-  { key: "enScraping", header: "En Scraping" },
+  { key: "enScraping", header: "En Moviliza" },
   { key: "observaciones", header: "Observaciones" },
 ];

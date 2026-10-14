@@ -1,6 +1,6 @@
 import { leerInventarioExcel } from "./excel";
 import { InventarioRow, INVENTARIO_COLUMNS } from "../types";
-import { getPlacasEnRango } from "../db/repository";
+import { getPlacasEnRango, reemplazarInventario } from "../db/repository";
 import { indexarFotos } from "../fotos";
 
 export interface ResumenInventario {
@@ -65,4 +65,23 @@ export async function combinarInventario(inicio: string, fin: string): Promise<I
   };
 
   return { columns: INVENTARIO_COLUMNS, rows, resumen };
+}
+
+// Guarda en la BD la clasificación vigente de todas las placas (historial
+// completo de Moviliza vs. Excel). Se llama al final de cada sincronización.
+export async function guardarInventarioEnBD(): Promise<number> {
+  const { rows } = await combinarInventario("1900-01-01", "2999-12-31");
+  await reemplazarInventario(
+    rows.map((r) => ({
+      placa: r.placa,
+      categoria: r.categoria,
+      tipoVehiculo: r.tipoVehiculo,
+      ubicacion: r.ubicacion,
+      estadoSalidaExcel: r.estadoSalidaExcel,
+      enExcel: r.enExcel === "Sí",
+      enMoviliza: r.enScraping === "Sí",
+      observaciones: r.observaciones,
+    }))
+  );
+  return rows.length;
 }
